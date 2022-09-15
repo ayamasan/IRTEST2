@@ -18,6 +18,9 @@ input.onButtonPressed(Button.A, function () {
     配列 = []
     データ = 0
 })
+pins.onPulsed(DigitalPin.P0, PulseValue.Low, function () {
+    配列.push(pins.pulseDuration())
+})
 input.onButtonPressed(Button.B, function () {
     if (データ < 配列.length) {
         bluetooth.uartWriteNumber(配列[データ])
