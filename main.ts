@@ -1,16 +1,14 @@
-/**
- * IR受信テスト
- * 
- * パルス幅を測って、シリアル通信として受信する
- * 
- * 受信した正パルス幅を配列に格納
- * 
- * BボタンでBluetoothに1つずつ送信
- * 
- * Aボタンでクリア
- */
+// IR受信テスト
+// 
+// パルス幅を測って、シリアル通信として受信する
+// 
+// 受信した正パルス幅を配列に格納
+// 
+// BボタンでBluetoothに1つずつ送信
+// 
+// Aボタンでクリア
 pins.onPulsed(DigitalPin.P0, PulseValue.High, function () {
-    if (データ != 0) {
+    if (データ == 1) {
         配列.push(pins.pulseDuration())
     }
 })
@@ -26,8 +24,16 @@ input.onButtonPressed(Button.A, function () {
     データ = 0
 })
 pins.onPulsed(DigitalPin.P0, PulseValue.Low, function () {
-    配列.push(pins.pulseDuration())
-    データ = 1
+    if (データ <= 1) {
+        配列.push(pins.pulseDuration())
+        if (データ >= 1) {
+            if (pins.pulseDuration() > 2000) {
+                データ = 2
+            }
+        } else {
+            データ = 1
+        }
+    }
 })
 input.onButtonPressed(Button.B, function () {
     if (0 < 配列.length) {
