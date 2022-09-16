@@ -1,10 +1,6 @@
-pins.onPulsed(DigitalPin.P0, PulseValue.High, function () {
-    配列.push(pins.pulseDuration())
-})
-bluetooth.onBluetoothConnected(function () {
-    basic.showIcon(IconNames.Yes)
-})
 /**
+ * IR受信テスト
+ * 
  * パルス幅を測って、シリアル通信として受信する
  * 
  * 受信した正パルス幅を配列に格納
@@ -13,6 +9,12 @@ bluetooth.onBluetoothConnected(function () {
  * 
  * Aボタンでクリア
  */
+pins.onPulsed(DigitalPin.P0, PulseValue.High, function () {
+    配列.push(pins.pulseDuration())
+})
+bluetooth.onBluetoothConnected(function () {
+    basic.showIcon(IconNames.Yes)
+})
 input.onButtonPressed(Button.A, function () {
     basic.showNumber(0)
     配列 = []
@@ -38,6 +40,3 @@ basic.showNumber(0)
 let IR入力 = pins.digitalReadPin(DigitalPin.P0)
 配列 = []
 データ = 0
-basic.forever(function () {
-	
-})
