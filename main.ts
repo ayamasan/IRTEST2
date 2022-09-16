@@ -15,6 +15,9 @@ pins.onPulsed(DigitalPin.P0, PulseValue.High, function () {
 bluetooth.onBluetoothConnected(function () {
     basic.showIcon(IconNames.Yes)
 })
+bluetooth.onBluetoothDisconnected(function () {
+    basic.showIcon(IconNames.No)
+})
 input.onButtonPressed(Button.A, function () {
     basic.showNumber(0)
     配列 = []
@@ -24,14 +27,16 @@ pins.onPulsed(DigitalPin.P0, PulseValue.Low, function () {
     配列.push(pins.pulseDuration())
 })
 input.onButtonPressed(Button.B, function () {
-    if (データ == 0) {
-        basic.showNumber(配列.length)
+    if (0 < 配列.length) {
+        basic.showArrow(ArrowNames.North)
+        for (let カウンター = 0; カウンター <= 4; カウンター++) {
+            bluetooth.uartWriteNumber(配列[カウンター])
+        }
+        basic.showIcon(IconNames.Happy)
+    } else {
+        basic.showIcon(IconNames.Asleep)
     }
-    if (データ < 配列.length) {
-        bluetooth.uartWriteNumber(配列[データ])
-        basic.showNumber(データ)
-        データ += 1
-    }
+    basic.clearScreen()
 })
 let データ = 0
 let 配列: number[] = []
