@@ -29,8 +29,9 @@ pins.onPulsed(DigitalPin.P0, PulseValue.Low, function () {
 input.onButtonPressed(Button.B, function () {
     if (0 < 配列.length) {
         basic.showArrow(ArrowNames.North)
-        for (let カウンター = 0; カウンター <= 4; カウンター++) {
+        for (let カウンター = 0; カウンター <= 配列.length; カウンター++) {
             bluetooth.uartWriteNumber(配列[カウンター])
+            basic.pause(20)
         }
         basic.showIcon(IconNames.Happy)
     } else {
