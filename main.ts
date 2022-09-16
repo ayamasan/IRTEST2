@@ -10,7 +10,9 @@
  * Aボタンでクリア
  */
 pins.onPulsed(DigitalPin.P0, PulseValue.High, function () {
-    配列.push(pins.pulseDuration())
+    if (データ != 0) {
+        配列.push(pins.pulseDuration())
+    }
 })
 bluetooth.onBluetoothConnected(function () {
     basic.showIcon(IconNames.Yes)
@@ -25,6 +27,7 @@ input.onButtonPressed(Button.A, function () {
 })
 pins.onPulsed(DigitalPin.P0, PulseValue.Low, function () {
     配列.push(pins.pulseDuration())
+    データ = 1
 })
 input.onButtonPressed(Button.B, function () {
     if (0 < 配列.length) {
