@@ -10,6 +10,9 @@
 pins.onPulsed(DigitalPin.P0, PulseValue.High, function () {
     if (データ == 1) {
         配列.push(pins.pulseDuration())
+        if (pins.pulseDuration() > 20000) {
+            データ = 2
+        }
     }
 })
 bluetooth.onBluetoothConnected(function () {
@@ -27,12 +30,13 @@ pins.onPulsed(DigitalPin.P0, PulseValue.Low, function () {
     if (データ <= 1) {
         配列.push(pins.pulseDuration())
         if (データ >= 1) {
-            if (pins.pulseDuration() > 2000) {
+            if (pins.pulseDuration() > 20000) {
                 データ = 2
             }
         } else {
             データ = 1
         }
+        最後の受信時間 = control.millis()
     }
 })
 input.onButtonPressed(Button.B, function () {
@@ -48,6 +52,7 @@ input.onButtonPressed(Button.B, function () {
     }
     basic.clearScreen()
 })
+let 最後の受信時間 = 0
 let データ = 0
 let 配列: number[] = []
 bluetooth.startUartService()
@@ -55,3 +60,12 @@ basic.showNumber(0)
 let IR入力 = pins.digitalReadPin(DigitalPin.P0)
 配列 = []
 データ = 0
+最後の受信時間 = control.millis()
+basic.forever(function () {
+    if (データ == 1) {
+        if (control.millis() - 最後の受信時間 > 45) {
+            データ = 2
+            basic.showNumber(配列.length)
+        }
+    }
+})
